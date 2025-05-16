@@ -11,30 +11,54 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load .env
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mzq80$vii9!0s8k1z_+%y15wywm$xj57uftvp&c3$)b=2)o+3n'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+# SECURITY WARNING: keep the secret key used in production secret!
+# Should specify a key in the .env when deploying to production.
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+if SECRET_KEY is None:
+    if DEBUG:
+        SECRET_KEY = 'django-insecure-mzq80$vii9!0s8k1z_+%y15wywm$xj57uftvp&c3$)b=2)o+3n'
+    else:
+        raise ValueError("SECRET_KEY environment variable is required when DEBUG=False")
 
-# Allow all origins (development only)
-CORS_ALLOW_ALL_ORIGINS = True
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',') if os.environ.get('DJANGO_ALLOWED_HOSTS') else []
+if not DEBUG and not ALLOWED_HOSTS:
+    raise ValueError("ALLOWED_HOSTS must be set when DEBUG=False")
 
-# Or, to allow specific origins: # Should be set when deploying to production
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:3000",
-#     "http://127.0.0.1:3000",
-# ]
+# Production security settings
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    CSRF_TRUSTED_ORIGINS = os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',') if os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS') else []
+    if not CSRF_TRUSTED_ORIGINS:
+        raise ValueError("CSRF_TRUSTED_ORIGINS must be set when DEBUG=False")
+
+# CORS Configuration
+if DEBUG:
+    # For development
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    # For production
+    CORS_ALLOW_ALL_ORIGINS = False
+    CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',') if os.environ.get('CORS_ALLOWED_ORIGINS') else []
 
 # Application definition
 
@@ -46,6 +70,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'trackapp',
 ]
@@ -84,13 +109,24 @@ WSGI_APPLICATION = 'trackproj.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Should eventually be changed to MySQL, but for should be fine for now.
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if not DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('DJANGO_DB_ENGINE', 'django.db.backends.sqlite3'),
+            'NAME': os.environ.get('DJANGO_DB_NAME', BASE_DIR / 'db.sqlite3'),
+            'USER': os.environ.get('DJANGO_DB_USER', ''),
+            'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', ''),
+            'HOST': os.environ.get('DJANGO_DB_HOST', 'localhost'),
+            'PORT': os.environ.get('DJANGO_DB_PORT', '3306'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -128,6 +164,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.environ.get('DJANGO_STATIC_ROOT', BASE_DIR / 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -136,3 +173,16 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Rest Framework settings
+REST_FRAMEWORK = {
+     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+     'PAGE_SIZE': 10,
+     'DEFAULT_AUTHENTICATION_CLASSES': [
+         'rest_framework.authentication.SessionAuthentication',
+         'rest_framework.authentication.TokenAuthentication',
+     ],
+     'DEFAULT_PERMISSION_CLASSES': [
+         'rest_framework.permissions.IsAuthenticated',
+     ],
+ }

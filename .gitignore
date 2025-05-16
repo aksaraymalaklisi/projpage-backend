@@ -70,3 +70,6 @@ venv/
 .venv/
 ENV/
 env/
+
+# Django - Unique folders
+trackfiles/
