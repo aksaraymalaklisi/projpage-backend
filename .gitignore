@@ -1,0 +1,72 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Django
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+static/
+.env
+.env.*
+*.env
+*.db
+*.bak
+*.swp
+
+# VS Code
+.vscode/
+
+# Migrations
+**/migrations/
+!**/migrations/__init__.py
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+htmlcov/
+.coverage
+.tox/
+.nox/
+.cache/
+.pytest_cache/
+.coverage.*
+
+# pipenv/poetry
+Pipfile.lock
+poetry.lock
+
+# mypy
+.mypy_cache/
+.dmypy.json
+
+# pytest
+.pytest_cache/
+
+# celery
+celerybeat-schedule
+celerybeat.pid
+
+# gunicorn
+gunicorn.pid
+
+# Docker
+*.pid
+
+# Others
+*.orig
+*.log
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+env/
