@@ -29,3 +29,5 @@ DJANGO_STATIC_ROOT=/path/to/staticfiles
 CORS_ALLOWED_ORIGINS=http://localhost:3000, http://127.0.0.1:3000
 DJANGO_CSRF_TRUSTED_ORIGINS=http://localhost:8000, http://127.0.0.1:8000
 ```
+Também há o painel de administrador. Crie um administrador para acessá-lo.
+`django manage.py createsuperuser`
