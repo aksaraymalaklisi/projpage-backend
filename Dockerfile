@@ -17,7 +17,7 @@ RUN apt-get update \
 WORKDIR /app
 
 # Install dependencies
-COPY requirements.txt /app/
+COPY trackproj/requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip \ 
     && pip install -r requirements.txt
 
