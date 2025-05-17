@@ -4,7 +4,7 @@ Esse README inclui instruções para rodar o backend do projpage. O backend poss
 
 ## O arquivo .env
 
-O arquivo .env não é necessário, mas o projeto também não deverá rodar em produção sem ele.
+O arquivo .env não é necessário, mas o projeto também irá rodar em produção sem ele configurado.
 Ele deve aceitar múltiplas entradas, mas normalmente, nada precisa ser feito se estiver em desenvolvimento.
 Em produção, algumas entradas possuem fallback, como a database, que irá utilizar SQLite.
 O resto precisa ser preenchido.
