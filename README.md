@@ -1,6 +1,6 @@
 # Backend do projpage
 
-Esse README inclui instruções para rodar o backend do projpage. O backend possui pouquíssimas features, mas essas instruções servem para prepará-lo para produção.
+Esse README inclui instruções para rodar o backend do projpage. O backend possui pouquíssimas funcionalidades, mas essas instruções servem para prepará-lo para produção.
 
 ## O arquivo .env
 
