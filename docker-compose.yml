@@ -1,0 +1,41 @@
+services:
+  db:
+    image: mysql:9.3
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: ${DJANGO_DB_NAME}
+      MYSQL_USER: ${DJANGO_DB_USER}
+      MYSQL_PASSWORD: ${DJANGO_DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DJANGO_DB_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    restart: on-failure
+    entrypoint: ["/bin/sh", "/app/entrypoint.sh"]
+    container_name: projpage-backend
+    hostname: projpage-backend
+    volumes:
+      - .:/app
+      - staticfiles:/app/staticfiles
+      - media:/app/media
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
+  staticfiles:
+  media:
