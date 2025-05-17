@@ -12,8 +12,19 @@ on:
     branches: [ "master" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
+    # Stop building on every commit to master.
+    paths:
+      - 'trackproj/**'
+      - 'Dockerfile'
+      - '.dockerignore' # I am not sure if this is needed, though.
+      - 'entrypoint.sh' # I am now aware this commit itself might start a build.
   pull_request:
     branches: [ "master" ]
+    paths:
+      - 'trackproj/**'
+      - 'Dockerfile'
+      - '.dockerignore'
+      - 'entrypoint.sh'
 
 env:
   # Use docker.io for Docker Hub if empty

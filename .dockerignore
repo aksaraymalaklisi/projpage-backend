@@ -1,10 +1,33 @@
+# Python cache and compiled files
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.db
+
+# Django local files
 *.sqlite3
-.env
 media/
+static/
 staticfiles/
-.github/
+.env
+
+# Git and VCS
+.git
+.gitignore
+
+# Docker and Compose files (not needed, other than the Dockerfile)
+docker-compose.yml
+docker-compose.*.yml
+
+# Project docs and meta
+README.md
+*.md
+
+# VSCode and editor configs
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
