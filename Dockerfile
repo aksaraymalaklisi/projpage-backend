@@ -1,3 +1,8 @@
+# I have specified the path to /usr/src/app.? Why? It was working fine before. Except for the entrypoint script.
+# Probably because some tyrannical entity with no respect for human life was responsible for whatever makes ENTRYPOINT work like this.
+# As a note: I, for some reason, decided to try and move entrypoint.sh to the Django project folder (/usr/src/app/trackproj/). 
+# It started failing again.
+
 # Use official Python image (based on what was used during development)
 FROM python:3.12-slim
 
@@ -14,24 +19,27 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Set work directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Install dependencies
-COPY trackproj/requirements.txt /app/requirements.txt
+COPY trackproj/requirements.txt /usr/src/app/requirements.txt
 RUN pip install --upgrade pip \ 
     && pip install -r requirements.txt
 
 # Copy project files
-COPY . /app/
+COPY . /usr/src/app/
+
+# Set entrypoint script permissions
+RUN chmod +x /usr/src/app/entrypoint.sh
 
 # Set new work directory to run Django (oops)
-WORKDIR /app/trackproj
+WORKDIR /usr/src/app/trackproj
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
 # Set entrypoint
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
 
 # Expose port
 EXPOSE 8000
