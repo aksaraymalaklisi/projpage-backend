@@ -24,6 +24,9 @@ RUN pip install --upgrade pip \
 # Copy project files
 COPY . /app/
 
+# Set new work directory to run Django (oops)
+WORKDIR /app/trackproj
+
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
