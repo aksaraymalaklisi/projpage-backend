@@ -8,7 +8,7 @@ until mysqladmin ping -h"$DJANGO_DB_HOST" -P"$DJANGO_DB_PORT" --silent; do
 done
 
 # Run migrations
-python manage.py migrate trackapp
+python manage.py migrate
 
 # Create superuser if it doesn't exist
 if [ "$DJANGO_SUPERUSER_USERNAME" ] && [ "$DJANGO_SUPERUSER_EMAIL" ] && [ "$DJANGO_SUPERUSER_PASSWORD" ]; then
