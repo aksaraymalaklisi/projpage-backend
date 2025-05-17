@@ -9,7 +9,7 @@ Ele deve aceitar múltiplas entradas, mas normalmente, nada precisa ser feito se
 Em produção, algumas entradas possuem fallback, como a database, que irá utilizar SQLite.
 O resto precisa ser preenchido.
 
-Esse é uma .env de exemplo. Lembre-se trocar quaisquer dados sensíveis (como o superuser, por exemplo) quando estiver em produção:
+Esse é uma .env de exemplo. Lembre-se trocar quaisquer dados sensíveis (como a chave de produção e o superuser, por exemplo) quando estiver em produção:
 
 ```bash
 # Django settings
