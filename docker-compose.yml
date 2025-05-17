@@ -18,9 +18,8 @@ services:
       retries: 5
 
   web:
-    build: .
+    image: ghcr.io/aksaraymalaklisi/projpage-backend:master
     restart: on-failure
-    entrypoint: ["/bin/sh", "/app/entrypoint.sh"]
     container_name: projpage-backend
     hostname: projpage-backend
     volumes:
