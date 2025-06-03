@@ -35,9 +35,6 @@ RUN chmod +x /usr/src/app/entrypoint.sh
 # Set new work directory to run Django (oops)
 WORKDIR /usr/src/app/trackproj
 
-# Collect static files
-RUN python manage.py collectstatic --noinput
-
 # Set entrypoint
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
 

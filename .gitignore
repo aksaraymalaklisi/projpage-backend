@@ -23,10 +23,6 @@ static/
 # VS Code
 .vscode/
 
-# Migrations
-**/migrations/
-!**/migrations/__init__.py
-
 # OS files
 .DS_Store
 Thumbs.db

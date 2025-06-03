@@ -18,14 +18,13 @@ services:
       retries: 5
 
   web:
-    image: ghcr.io/aksaraymalaklisi/projpage-backend:master
+    build: . # Ou utilize a imagem disponível no repositório (image: nome_da_imagem)
     restart: on-failure
     container_name: projpage-backend
     hostname: projpage-backend
     volumes:
-      - .:/app
-      - staticfiles:/app/staticfiles
-      - media:/app/media
+      - ./static:/static
+      - ./media:/media
     ports:
       - "8000:8000"
     env_file:
@@ -36,5 +35,5 @@ services:
 
 volumes:
   mysql_data:
-  staticfiles:
+  static:
   media:
