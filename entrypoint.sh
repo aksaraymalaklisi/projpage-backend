@@ -19,4 +19,4 @@ if [ "$DJANGO_SUPERUSER_USERNAME" ] && [ "$DJANGO_SUPERUSER_EMAIL" ] && [ "$DJAN
 fi
 
 # Start Gunicorn
-exec gunicorn trackproj.wsgi:application --bind 0.0.0.0:8000 --log-level debug --error-logfile -
+exec gunicorn trackproj.wsgi:application --bind 0.0.0.0:8000
