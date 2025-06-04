@@ -18,8 +18,8 @@ DJANGO_SECRET_KEY=your-production-secret-key
 DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
 
 # CORS and CSRF
-CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
-DJANGO_CSRF_TRUSTED_ORIGINS=http://localhost:8000,http://127.0.0.1:8000
+CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+DJANGO_CSRF_TRUSTED_ORIGINS=http://localhost:8080,http://127.0.0.1:8080
 
 # Database settings (used when DEBUG=False)
 # MySQL seems to require a root password
@@ -32,7 +32,7 @@ DJANGO_DB_PORT=3306
 DJANGO_DB_ROOT_PASSWORD=pirimplimplim_mysql
 
 # Static files (optional)
-DJANGO_STATIC_ROOT=/app/staticfiles
+DJANGO_STATIC_ROOT=/static
 
 # Django superuser
 DJANGO_SUPERUSER_USERNAME=admin
@@ -50,6 +50,9 @@ Em produção, gere uma nova chave secreta:
 ## Rodando o backend com Docker
 
 Esteja com Docker instalado (com Docker Compose, mas assumo que já venha instalado).
+O Docker Compose atual utiliza Nginx para servir os arquivos.
+Se estiver rodando em produção, é necessário ter o arquivo de configuração do Nginx ou utilizar o próprio webserver.
+Whitenoise foi removido, já que ele não servia os arquivos de mídia (arquivos .gpx).
 
 1. **Configure o arquivo `.env`**
    
@@ -65,9 +68,10 @@ Esteja com Docker instalado (com Docker Compose, mas assumo que já venha instal
 3. **Inicie os serviços**
    
    ```sh
-   docker-compose up
+   docker-compose up -d
    ```
-   O backend estará disponível em [http://localhost:8000](http://localhost:8000).
+   O backend estará disponível em [http://localhost:8080](http://localhost:8080) e na porta 8000 (gunicorn). Note que gunicorn não está servindo arquivos estáticos.
+   Se estiver com um webserver já configurado, aponte-o para a porta 8000, como visto na .conf do Nginx.
    Use o argumento `-d` para rodar em modo headless.
 4. **Acessando o banco de dados**
    
