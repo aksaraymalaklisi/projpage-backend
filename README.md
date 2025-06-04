@@ -139,7 +139,7 @@ Body (JSON):
 ```json
 {
   "username": "henrique",
-  "password": "senha123"
+  "password": "famosissima-senha-segura"
 }
 ```
 
