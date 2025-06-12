@@ -9,7 +9,7 @@ class TrackAdmin(admin.ModelAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'name', 'phone', 'cpf')
+    list_display = ('user', 'name', 'phone', 'cpf', 'picture')
     search_fields = ('name', 'cpf', 'user__username')
 
 @admin.register(Rating)

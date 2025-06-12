@@ -32,7 +32,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['name', 'phone', 'cpf']
+        fields = ['name', 'phone', 'cpf', 'picture']
 
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()

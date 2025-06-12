@@ -7,7 +7,9 @@ dotenv==0.9.9
 gunicorn==23.0.0
 mysqlclient==2.2.7
 packaging==25.0
+pillow==11.2.1 # Para a picture do Profile model
 PyJWT==2.9.0
 python-dotenv==1.1.0
 sqlparse==0.5.3
 tzdata==2025.2
+# whitenoise==6.9.0 # Não utilizamos whitenoise pois o sistema serve arquivos de mídia, algo que whitenoise não serve.

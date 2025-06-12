@@ -51,3 +51,8 @@ volumes:
   mysql_data:
   media:
   static:
+
+networks:
+  default:
+    name: $DOCKER_NETWORK
+    external: true
