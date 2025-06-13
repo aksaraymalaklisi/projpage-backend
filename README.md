@@ -2,6 +2,10 @@
 
 Esse README inclui instruções para rodar o backend do projpage. O backend possui pouquíssimas funcionalidades, mas essas instruções servem para prepará-lo para produção.
 
+## Endpoint
+
+O endpoint para requisições está em `/api/`.
+
 ## O arquivo .env
 
 O arquivo .env não é necessário, mas o projeto não irá rodar em produção sem ele configurado.
@@ -113,9 +117,11 @@ Algumas ações que normalmente seriam feitas pelo terminal não poderiam ser re
 
 ## Exemplos de uso da API (Autenticação e Ratings)
 
+Como mencionado anteriormente, o endpoint para requisições está em `/api/`.
+
 ### 1. Registro de usuário
 
-**POST** `/register/`
+**POST** `/api/register/`
 
 Body (JSON):
 
@@ -132,7 +138,7 @@ Body (JSON):
 
 ### 2. Login (obter tokens JWT)
 
-**POST** `/login/`
+**POST** `/api/login/`
 
 Body (JSON):
 
@@ -165,7 +171,7 @@ No Postman, adicione em Headers:
 
 ### 4. Refresh do token
 
-**POST** `/token/refresh/`
+**POST** `/api/token/refresh/`
 
 Body (JSON):
 
@@ -185,10 +191,10 @@ Resposta:
 
 ### 5. Consultar/editar perfil do usuário autenticado
 
-**GET** `/users/me/`  
+**GET** `/api/users/me/`  
 Headers: `Authorization: Bearer <access_token>`
 
-**PATCH** `/users/me/`  
+**PATCH** `/api/users/me/`  
 Headers: `Authorization: Bearer <access_token>`
 Body (JSON):
 
@@ -201,7 +207,7 @@ Body (JSON):
 
 ### 6. Criar uma avaliação (rating) de uma trilha
 
-**POST** `/ratings/`  
+**POST** `/api/ratings/`  
 Headers: `Authorization: Bearer <access_token>`
 Body (JSON):
 
@@ -215,11 +221,11 @@ Body (JSON):
 
 ### 7. Listar avaliações de uma trilha
 
-**GET** `/ratings/?track=1`
+**GET** `/api/ratings/?track=1`
 
 ### 8. Editar ou apagar sua avaliação
 
-**PATCH** `/ratings/<id>/`  
+**PATCH** `/api/ratings/<id>/`  
 Headers: `Authorization: Bearer <access_token>`
 Body (JSON):
 
@@ -229,12 +235,12 @@ Body (JSON):
 }
 ```
 
-**DELETE** `/ratings/<id>/`  
+**DELETE** `/api/ratings/<id>/`  
 Headers: `Authorization: Bearer <access_token>`
 
 ### 9. Favoritar uma trilha
 
-**POST** `/tracks/<id>/favorite/`
+**POST** `/api/tracks/<id>/favorite/`
 Authorization: `Authorization: Bearer <access_token>`
 Body (JSON):
 
