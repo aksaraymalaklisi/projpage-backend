@@ -260,7 +260,7 @@ Body (JSON):
 **PATCH** `/api/users/me/`
 Headers: `Authorization: Bearer <access_token>`
 
-Body: Irá retornar o body do Profile, com a nova URL da foto.
+Body: Irá retornar o body do Profile, com a nova URL da foto em `picture`.
 
 ---
 
