@@ -52,6 +52,9 @@ if not DEBUG:
     if not CSRF_TRUSTED_ORIGINS:
         raise ValueError("CSRF_TRUSTED_ORIGINS must be set when DEBUG=False")
 
+# SSL proxy header
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # CORS Configuration
 if DEBUG:
     # For development
