@@ -2,9 +2,8 @@ from django.db import models
 from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 
-# Only the track model for now.
 class Track(models.Model):
-    # DIFFICULTY choices
+    # DIFFICULTY
     DIFFICULTY_EASY = 'facil'
     DIFFICULTY_MODERATE = 'moderado'
     DIFFICULTY_DIFFICULT = 'dificil'
@@ -14,7 +13,7 @@ class Track(models.Model):
         (DIFFICULTY_DIFFICULT, 'Difícil'),
     ]
     
-    # ROUTE_TYPE choices
+    # ROUTE_TYPE
     ROUTE_TYPE_ROUND_TRIP = 'ida_volta'
     ROUTE_TYPE_ONE_WAY = 'ida'
     ROUTE_TYPE_RETURN = 'volta'
@@ -36,7 +35,7 @@ class Track(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.label} ({self.url})" # I want to make sure that the track path is being properly stored.
+        return f"{self.label} ({self.url})"
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -61,3 +60,13 @@ class Rating(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.track.label} ({self.score})"
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'track')
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.track.label}"

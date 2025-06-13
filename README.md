@@ -232,6 +232,19 @@ Body (JSON):
 **DELETE** `/ratings/<id>/`  
 Headers: `Authorization: Bearer <access_token>`
 
+### 9. Favoritar uma trilha
+
+**POST** `/tracks/<id>/favorite/`
+Authorization: `Authorization: Bearer <access_token>`
+Body (JSON):
+
+```json
+{
+  "favorited": true,
+  "favorites_count": 3
+}
+```
+
 ---
 
 Se receber "Authentication credentials were not provided.", confira se está enviando o header.

@@ -1,11 +1,16 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Track, Profile, Rating
+from .models import Track, Profile, Rating, Favorite
 
 class TrackSerializer(serializers.ModelSerializer):
+    favorites_count = serializers.SerializerMethodField()
+
     class Meta:
         model = Track
         fields = '__all__'
+
+    def get_favorites_count(self, obj): # Uma Track pode ter seus favoritos acessados.
+        return Favorite.objects.filter(track=obj).count() # Tecnicamente, isso não faz parte do modelo.
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
