@@ -3,7 +3,7 @@ from .models import Track, Profile, Rating, Favorite
 
 @admin.register(Track)
 class TrackAdmin(admin.ModelAdmin):
-    list_display = ('label', 'difficulty', 'duration', 'route_type', 'url')
+    list_display = ('label', 'difficulty', 'duration', 'route_type', 'url','id')
     search_fields = ('label', 'description')
     list_filter = ('difficulty', 'route_type')
 
