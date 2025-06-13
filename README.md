@@ -196,6 +196,7 @@ Headers: `Authorization: Bearer <access_token>`
 
 **PATCH** `/api/users/me/`  
 Headers: `Authorization: Bearer <access_token>`
+
 Body (JSON):
 
 ```json
@@ -209,6 +210,7 @@ Body (JSON):
 
 **POST** `/api/ratings/`  
 Headers: `Authorization: Bearer <access_token>`
+
 Body (JSON):
 
 ```json
@@ -227,6 +229,7 @@ Body (JSON):
 
 **PATCH** `/api/ratings/<id>/`  
 Headers: `Authorization: Bearer <access_token>`
+
 Body (JSON):
 
 ```json
@@ -240,8 +243,9 @@ Headers: `Authorization: Bearer <access_token>`
 
 ### 9. Favoritar uma trilha
 
-**POST** `/api/tracks/<id>/favorite/`
+**POST** `/api/tracks/<id>/favorite/`  
 Authorization: `Authorization: Bearer <access_token>`
+
 Body (JSON):
 
 ```json
@@ -250,6 +254,13 @@ Body (JSON):
   "favorites_count": 3
 }
 ```
+
+### 10. Alterar a foto de perfil
+
+**PATCH** `/api/users/me/`
+Headers: `Authorization: Bearer <access_token>`
+
+Body: Irá retornar o body do Profile, com a nova URL da foto.
 
 ---
 

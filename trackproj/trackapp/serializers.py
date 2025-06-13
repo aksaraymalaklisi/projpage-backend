@@ -35,6 +35,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user
 
 class ProfileSerializer(serializers.ModelSerializer):
+    picture = serializers.ImageField(use_url=True, required=False, allow_null=True)
+
     class Meta:
         model = Profile
         fields = ['name', 'phone', 'cpf', 'picture']

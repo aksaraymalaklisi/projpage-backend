@@ -58,13 +58,13 @@ class UserViewSet(ModelViewSet):
     @action(detail=False, methods=['get', 'put', 'patch'], permission_classes=[IsAuthenticated])
     def me(self, request):
         user = request.user
-        if request.method in ['PUT', 'PATCH']:
-            profile_serializer = ProfileSerializer(user.profile, data=request.data, partial=True)
+        if request.method in ['PUT', 'PATCH']: # Essa view agora retorna o contexto do request, já que o frontend espera a requisição contendo o FQDN no path dos ImageField.
+            profile_serializer = ProfileSerializer(user.profile, data=request.data, context={'request': request}, partial=True)
             if profile_serializer.is_valid():
                 profile_serializer.save()
-                return Response(UserSerializer(user).data)
+                return Response(UserSerializer(user, context={'request': request}).data)
             return Response(profile_serializer.errors, status=400)
-        return Response(UserSerializer(user).data)
+        return Response(UserSerializer(user, context={'request': request}).data)
 
 class RatingViewSet(ModelViewSet):
     queryset = Rating.objects.all()
