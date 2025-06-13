@@ -26,6 +26,7 @@ class Track(models.Model):
     label = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     url = models.FileField(upload_to='tracks/', validators=[FileExtensionValidator(allowed_extensions=['gpx'])])
+    distance = models.FloatField(validators=[MinValueValidator(0.0)], blank=True, null=True, help_text="Distance should be in meters")
     difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES, default=DIFFICULTY_MODERATE)
     duration = models.PositiveIntegerField(blank=True, null=True, help_text="Duration should be in minutes")
     route_type = models.CharField(max_length=10, choices=ROUTE_TYPE_CHOICES, default=ROUTE_TYPE_ROUND_TRIP)
