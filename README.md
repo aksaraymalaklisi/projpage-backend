@@ -257,7 +257,7 @@ Body (JSON):
 
 ### 10. Alterar a foto de perfil
 
-**PATCH** `/api/users/me/`
+**PATCH** `/api/users/me/`  
 Headers: `Authorization: Bearer <access_token>`
 
 Body: Irá retornar o body do Profile, com a nova URL da foto em `picture`.
