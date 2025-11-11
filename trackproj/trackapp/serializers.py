@@ -4,6 +4,7 @@ from .models import Track, Profile, Rating, Favorite
 
 class TrackSerializer(serializers.ModelSerializer):
     favorites_count = serializers.SerializerMethodField()
+    image = serializers.ImageField(use_url=True, required=False, allow_null=True)
 
     class Meta:
         model = Track

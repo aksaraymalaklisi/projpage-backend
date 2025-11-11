@@ -31,6 +31,7 @@ class Track(models.Model):
     duration = models.PositiveIntegerField(blank=True, null=True, help_text="Duration should be in minutes")
     route_type = models.CharField(max_length=10, choices=ROUTE_TYPE_CHOICES, default=ROUTE_TYPE_ROUND_TRIP)
     elevation = models.FloatField(blank=True, null=True, help_text="Elevation should be in meters")
+    image = models.ImageField(upload_to='tracks/images/', blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
