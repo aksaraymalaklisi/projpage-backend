@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
@@ -33,6 +34,8 @@ class Track(models.Model):
     elevation = models.FloatField(blank=True, null=True, help_text="Elevation should be in meters")
     image = models.ImageField(upload_to='tracks/images/', blank=True, null=True)
 
+    qdrant_id = models.UUIDField(null=True, blank=True, unique=True)
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -29,6 +29,8 @@ DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 # SECURITY WARNING: keep the secret key used in production secret!
 # Should specify a key in the .env when deploying to production.
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
+
 if SECRET_KEY is None:
     if DEBUG:
         SECRET_KEY = 'django-insecure-mzq80$vii9!0s8k1z_+%y15wywm$xj57uftvp&c3$)b=2)o+3n'
@@ -67,6 +69,7 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -77,6 +80,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'trackapp',
+    'chatbot',
 ]
 
 MIDDLEWARE = [
@@ -92,6 +96,17 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'trackproj.urls'
+
+ASGI_APPLICATION = 'trackproj.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('redis', 6379)],
+        },
+    },
+}
 
 TEMPLATES = [
     {
