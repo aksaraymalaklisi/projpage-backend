@@ -4,7 +4,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from django.conf import settings
 from qdrant_client import AsyncQdrantClient, models
 from .models import Message, ChatRoom
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from channels.db import database_sync_to_async
 
 # Initialize the GenAI Client
@@ -12,10 +12,31 @@ client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
 class ChatConsumer(AsyncWebsocketConsumer):
     
-    
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = f'chat_{self.room_name}'
+
+        # Extract token from query string
+        try:
+            query_string = self.scope['query_string'].decode()
+            params = dict(x.split('=') for x in query_string.split('&') if '=' in x)
+            token = params.get('token')
+            
+            if token:
+                from rest_framework_simplejwt.tokens import AccessToken
+                from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+                
+                try:
+                    access_token = AccessToken(token)
+                    user = await database_sync_to_async(User.objects.get)(id=access_token['user_id'])
+                    self.scope['user'] = user
+                except (InvalidToken, TokenError, User.DoesNotExist):
+                    self.scope['user'] = AnonymousUser()
+            else:
+                 self.scope['user'] = AnonymousUser()
+                 
+        except Exception:
+            self.scope['user'] = AnonymousUser()
 
         await self.channel_layer.group_add(
             self.room_group_name,
