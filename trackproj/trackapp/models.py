@@ -75,3 +75,58 @@ class Favorite(models.Model):
     
     def __str__(self):
         return f"{self.user.username} - {self.track.label}"
+
+class TrackImage(models.Model):
+    track = models.ForeignKey(Track, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='tracks/gallery/')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Image for {self.track.label}"
+
+class CommunityPost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+    content = models.TextField()
+    image = models.ImageField(upload_to='community/posts/', blank=True, null=True)
+    track = models.ForeignKey(Track, on_delete=models.SET_NULL, null=True, blank=True, related_name='mentioned_in_posts')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Post by {self.user.username} at {self.created_at}"
+
+class PostComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(CommunityPost, on_delete=models.CASCADE, related_name='comments')
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f"Comment by {self.user.username} on {self.post.id}"
+
+class PostReaction(models.Model):
+    REACTION_CHOICES = [
+        ('like', 'Like'),
+        ('love', 'Love'),
+        ('haha', 'Haha'),
+        ('wow', 'Wow'),
+        ('sad', 'Sad'),
+        ('angry', 'Angry'),
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reactions')
+    post = models.ForeignKey(CommunityPost, on_delete=models.CASCADE, related_name='reactions')
+    reaction_type = models.CharField(max_length=10, choices=REACTION_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'post')
+
+    def __str__(self):
+        return f"{self.user.username} reacted {self.reaction_type} to {self.post.id}"
